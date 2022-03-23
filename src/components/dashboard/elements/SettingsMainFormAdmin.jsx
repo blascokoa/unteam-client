@@ -127,6 +127,7 @@ const SettingsMainFormAdmin = (props) => {
           <Typography component="h1" variant="h5">
             Profile Info
           </Typography>
+          {/* Switch for change enable the edit function */}
           <FormControlLabel
             sx={{ color: "text.primary" }}
             label="Edit"
