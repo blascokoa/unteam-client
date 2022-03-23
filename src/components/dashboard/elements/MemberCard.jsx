@@ -14,6 +14,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import { deleteGroupSettingsService } from "../../../services/settings.services";
+import { deleteMemberFromUserService } from "../../../services/members.services";
 
 const GroupCard = (props) => {
   const [open, setOpen] = useState(false);
@@ -31,7 +32,8 @@ const GroupCard = (props) => {
   const handleCloseDelete = async () => {
     setOpen(false);
     console.log("deleting member");
-    // const response = await deleteGroupSettingsService(groupInfo);
+
+    const response = await deleteMemberFromUserService(memberInfo._id);
     props.setIsUpdated(!props.isUpdated);
   };
 
@@ -53,7 +55,7 @@ const GroupCard = (props) => {
         sx={{
           p: 2,
           border: "1px solid #F54257",
-          borderRadius: "15px",
+          borderRadius: "5px",
           boxShadow: "7px 4px 4px 0px rgba(112,101,105,0.65)",
         }}
       >

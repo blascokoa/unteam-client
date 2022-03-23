@@ -28,8 +28,7 @@ const AddMember = (props) => {
     e.preventDefault();
     const { name, surname, birthday } = formData;
     const year = birthday.getFullYear();
-
-    if (!name || !surname || !birthday) {
+    if (!name || !surname || !year) {
       setFormError(true);
       setShowAlert(true);
       setTimeout(() => {
@@ -46,11 +45,34 @@ const AddMember = (props) => {
         birthday,
         year,
       };
-      props.setAddedMember(!props.addedMember);
+      props.setIsUpdated(!props.isUpdated);
       const response = await addMemberFromUserService(data);
       console.log(response.status);
     }
   };
+
+  const addMemberButton = (
+    <Grid item xs={showForm ? 6 : 12}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Button
+          variant={showForm ? "outlined" : "contained"}
+          onClick={handleClick}
+          sx={{ mt: 0, ml: 1, display: "flex" }}
+          fullWidth
+        >
+          {showForm ? "Cancel" : "Add a new member"}
+        </Button>
+      </Box>
+    </Grid>
+  );
+
+  const noAddMemberButton = (
+    <Grid item xs={showForm ? 6 : 12}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography variant={"h5"}>List of Members</Typography>
+      </Box>
+    </Grid>
+  );
 
   return (
     <Container component={"main"} maxWidth={"sm"} sx={{ mb: 4 }}>
@@ -68,18 +90,8 @@ const AddMember = (props) => {
         </Collapse>
 
         <Grid container spacing={2}>
-          <Grid item xs={showForm ? 6 : 12}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Button
-                variant={showForm ? "outlined" : "contained"}
-                onClick={handleClick}
-                sx={{ mt: 0, ml: 1, display: "flex" }}
-                fullWidth
-              >
-                {showForm ? "Cancel" : "Add a new member"}
-              </Button>
-            </Box>
-          </Grid>
+          {props.role === "member" ? addMemberButton : noAddMemberButton}
+
           <Grid item xs={showForm ? 6 : 12}>
             <Box
               sx={{

@@ -10,7 +10,6 @@ import {
   IconButton,
   Toolbar,
 } from "@mui/material";
-import MembersSummaryAdmin from "../components/dashboard/admin_role/MembersSummaryAdmin";
 import MessagesSummaryAdmin from "../components/dashboard/admin_role/MessagesSummaryAdmin";
 import EventsSummaryAdmin from "../components/dashboard/admin_role/EventsSummaryAdmin";
 import AdminSettingsAdmin from "../components/dashboard/admin_role/AdminSettingsAdmin";
@@ -137,7 +136,7 @@ const Dashboard = (props) => {
         }}
       >
         {currentTabIndex === 0 && props.loggedUser.role === "admin" && (
-          <MembersSummaryAdmin loggedUser={props.loggedUser} />
+          <MembersSummaryMember loggedUser={props.loggedUser} />
         )}
         {currentTabIndex === 1 && props.loggedUser.role === "admin" && (
           <MessagesSummaryAdmin loggedUser={props.loggedUser} />

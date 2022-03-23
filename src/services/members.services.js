@@ -23,3 +23,12 @@ export const getMembersFromUserService = () => {
 export const addMemberFromUserService = (data) => {
   return service.post("/addmember", data);
 };
+
+export const deleteMemberFromUserService = (data) => {
+  return service.delete("/deletemember", { data: { data } });
+};
+
+export const getMembersFromClubService = (data) => {
+  console.log("requesting the list of club members");
+  return service.get("/getmemberslcub", data);
+};

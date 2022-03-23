@@ -7,9 +7,7 @@ import { DatePicker, LocalizationProvider } from "@mui/lab";
 const AddMemberForm = (props) => {
   const [nameValue, setNameValue] = useState("");
   const [surnameValue, setSurnameValue] = useState("");
-  const [birthdayDate, setbirthdayDate] = useState(
-    new Date("2022-01-01T08:00:00")
-  );
+  const [birthdayDate, setBirthdayDate] = useState("");
 
   useEffect(() => {
     const data = {
@@ -55,10 +53,11 @@ const AddMemberForm = (props) => {
             />
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
+                inputFormat="dd/MM/yyyy"
                 label="Birthday Date"
                 value={birthdayDate}
                 onChange={(newValue) => {
-                  setbirthdayDate(newValue);
+                  setBirthdayDate(newValue);
                 }}
                 InputLabelProps={{
                   style: { color: "#F54257" },
