@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Collapse,
@@ -10,20 +11,45 @@ import {
 
 import { useState } from "react";
 import AddMemberForm from "./AddMemberForm";
+import { addMemberFromUserService } from "../../../services/members.services";
 
-const AddMember = () => {
+const AddMember = (props) => {
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState("");
+  const [formError, setFormError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
     setShowForm(!showForm);
   };
 
-  const handleClickSave = (e) => {
+  const handleClickSave = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    console.log("Inside Save Button");
+    const { name, surname, birthday } = formData;
+    const year = birthday.getFullYear();
+
+    if (!name || !surname || !birthday) {
+      setFormError(true);
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 5000);
+    } else {
+      setFormError(false);
+    }
+
+    if (!formError) {
+      const data = {
+        name,
+        surname,
+        birthday,
+        year,
+      };
+      props.setAddedMember(!props.addedMember);
+      const response = await addMemberFromUserService(data);
+      console.log(response.status);
+    }
   };
 
   return (
@@ -35,6 +61,12 @@ const AddMember = () => {
         <Collapse in={showForm}>
           <AddMemberForm setFormData={setFormData} />
         </Collapse>
+        <Collapse in={showAlert}>
+          <Alert severity="error" sx={{ m: 1, mb: 3 }}>
+            Please fill all the fields
+          </Alert>
+        </Collapse>
+
         <Grid container spacing={2}>
           <Grid item xs={showForm ? 6 : 12}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>

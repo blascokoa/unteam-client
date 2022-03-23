@@ -19,3 +19,7 @@ service.interceptors.request.use((config) => {
 export const getMembersFromUserService = () => {
   return service.get("/getmembers");
 };
+
+export const addMemberFromUserService = (data) => {
+  return service.post("/addmember", data);
+};

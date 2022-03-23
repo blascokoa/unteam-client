@@ -1,15 +1,24 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 
-const AddMemberForm = () => {
+const AddMemberForm = (props) => {
   const [nameValue, setNameValue] = useState("");
   const [surnameValue, setSurnameValue] = useState("");
   const [birthdayDate, setbirthdayDate] = useState(
     new Date("2022-01-01T08:00:00")
   );
+
+  useEffect(() => {
+    const data = {
+      name: nameValue,
+      surname: surnameValue,
+      birthday: birthdayDate,
+    };
+    props.setFormData(data);
+  }, [birthdayDate, nameValue, surnameValue]);
 
   return (
     <div>
