@@ -24,8 +24,12 @@ export const addPublicationService = (data) => {
   return service.post("/addpublication", data);
 };
 
+export const editPublicationService = (data) => {
+  return service.patch("/editpublication", data);
+};
+
 export const deleteManyPublicationsService = (data) => {
-  return service.post("/deletemanypublications", data);
+  return service.delete("/deletemanypublications", { data: { data } });
 };
 
 export const getReadersService = () => {

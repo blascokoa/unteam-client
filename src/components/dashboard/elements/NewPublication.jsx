@@ -2,8 +2,11 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 import PreviewPublication from "./PreviewPublication";
-import { useState } from "react";
-import { addPublicationService } from "../../../services/messages.services";
+import { useEffect, useState } from "react";
+import {
+  addPublicationService,
+  editPublicationService,
+} from "../../../services/messages.services";
 
 const NewPublication = (props) => {
   const [value, setValue] = useState("");
@@ -14,18 +17,32 @@ const NewPublication = (props) => {
     setShowPublicationsList,
     setShowNewPublication,
     setNewPublicationTitle,
+    pubToEdit,
+    setPubToEdit,
   } = props;
 
   const handleSaveClick = async () => {
     console.log("clicked save button");
-    const data = {
-      title: newPublicationTitle,
-      body: value,
-    };
+
     try {
-      await addPublicationService(data);
+      if (pubToEdit) {
+        const data = {
+          id: pubToEdit._id,
+          title: pubToEdit.title,
+          body: value,
+        };
+        await editPublicationService(data);
+      } else {
+        const data = {
+          title: newPublicationTitle,
+          body: value,
+        };
+        await addPublicationService(data);
+      }
+
       setValue("");
       setNewPublicationTitle("");
+      setPubToEdit("");
       setShowPublicationsList(true);
       setShowNewPublication(false);
     } catch (err) {
@@ -39,7 +56,12 @@ const NewPublication = (props) => {
     setNewPublicationTitle("");
     setShowPublicationsList(true);
     setShowNewPublication(false);
+    setPubToEdit("");
   };
+
+  useEffect(() => {
+    setValue(pubToEdit.message ? pubToEdit.message : "");
+  }, []);
 
   return (
     <Grid container>
@@ -61,7 +83,7 @@ const NewPublication = (props) => {
             Cancel
           </Button>
           <Typography variant={"h5"} sx={{ ml: 1, mr: 1, mt: 2 }}>
-            {newPublicationTitle}
+            {pubToEdit.title ? pubToEdit.title : newPublicationTitle}
           </Typography>
           <Button
             variant="contained"

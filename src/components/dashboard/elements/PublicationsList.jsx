@@ -19,7 +19,10 @@ import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useEffect, useState } from "react";
-import { addReaderService } from "../../../services/messages.services";
+import {
+  addReaderService,
+  deleteManyPublicationsService,
+} from "../../../services/messages.services";
 
 const PublicationsList = (props) => {
   const [checkedBoxes, setCheckedBoxes] = useState([]);
@@ -36,6 +39,9 @@ const PublicationsList = (props) => {
     setShowPreview,
     setPreviewPublication,
     loggedUser,
+    editedList,
+    setEditedList,
+    setPubToEdit,
   } = props;
 
   const handleCheckBoxChange = (id) => {
@@ -67,8 +73,11 @@ const PublicationsList = (props) => {
     }
   };
 
-  const handleDeleteButton = () => {
+  const handleDeleteButton = async () => {
     console.log("Clicking the delete button");
+    await deleteManyPublicationsService(checkedBoxes);
+    setCheckedBoxes([]);
+    setEditedList(!editedList);
   };
 
   const handleShowPreview = async (publication) => {
@@ -82,8 +91,11 @@ const PublicationsList = (props) => {
     setPreviewPublication(publication);
   };
 
-  const handleEditPublication = () => {
+  const handleEditPublication = (publication) => {
     console.log("Handle Edit button");
+    setPubToEdit(publication);
+    setShowNewPublication(true);
+    setShowPublicationsList(false);
   };
 
   const handleSendPublication = async () => {
@@ -91,8 +103,6 @@ const PublicationsList = (props) => {
   };
 
   useEffect(() => {
-    console.log(loggedUser.role);
-    console.log(loggedUser === "admin");
     console.log(checkedBoxes);
   }, [checkedBoxes]);
 

@@ -12,6 +12,8 @@ const MessagesSummaryAdmin = (props) => {
   const [publicationsList, setPublicationsList] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [previewPublication, setPreviewPublication] = useState("");
+  const [editedList, setEditedList] = useState(false);
+  const [pubToEdit, setPubToEdit] = useState("");
 
   const { loggedUser } = props;
 
@@ -22,7 +24,7 @@ const MessagesSummaryAdmin = (props) => {
       const result = await getPublicationsService();
       setPublicationsList(result.data);
     })();
-  }, [showNewPublication, showPublicationsList]);
+  }, [showNewPublication, showPublicationsList, editedList]);
 
   if (!publicationsList) {
     return <h3>Loading</h3>;
@@ -46,6 +48,9 @@ const MessagesSummaryAdmin = (props) => {
           publicationsList={publicationsList}
           setShowPreview={setShowPreview}
           setPreviewPublication={setPreviewPublication}
+          editedList={editedList}
+          setEditedList={setEditedList}
+          setPubToEdit={setPubToEdit}
         />
       )}
       {showNewPublication && (
@@ -55,6 +60,8 @@ const MessagesSummaryAdmin = (props) => {
           setShowPublicationsList={setShowPublicationsList}
           setShowNewPublication={setShowNewPublication}
           setNewPublicationTitle={setNewPublicationTitle}
+          pubToEdit={pubToEdit}
+          setPubToEdit={setPubToEdit}
         />
       )}
       {showPreview && (
