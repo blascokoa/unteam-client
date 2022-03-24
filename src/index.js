@@ -7,7 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import "@fontsource/roboto/300.css";
 import { createTheme, ThemeProvider } from "@mui/material";
 
-const theme = createTheme({
+export const theme = createTheme({
   palette: {
     primary: {
       main: "#F54257",

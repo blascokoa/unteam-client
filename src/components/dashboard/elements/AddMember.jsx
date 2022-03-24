@@ -36,18 +36,17 @@ const AddMember = (props) => {
       }, 5000);
     } else {
       setFormError(false);
-    }
-
-    if (!formError) {
-      const data = {
-        name,
-        surname,
-        birthday,
-        year,
-      };
-      props.setIsUpdated(!props.isUpdated);
-      const response = await addMemberFromUserService(data);
-      console.log(response.status);
+      if (!formError) {
+        const data = {
+          name,
+          surname,
+          birthday,
+          year,
+        };
+        props.setIsUpdated(!props.isUpdated);
+        const response = await addMemberFromUserService(data);
+        console.log(response.status);
+      }
     }
   };
 

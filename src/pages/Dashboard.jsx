@@ -16,10 +16,10 @@ import AdminSettingsAdmin from "../components/dashboard/admin_role/AdminSettings
 import { useTheme } from "@mui/material/styles";
 import FinancesSummaryAdmin from "../components/dashboard/admin_role/FinancesSummaryAdmin";
 import MembersSummaryMember from "../components/dashboard/member_role/MembersSummaryMember";
-import MessagesSummaryMember from "../components/dashboard/member_role/MessagesSummaryMember";
 import EventsSummaryMember from "../components/dashboard/member_role/EventsSummaryMember";
 import FinancesSummaryMember from "../components/dashboard/member_role/FinancesSummaryMember";
 import AdminSettingsMember from "../components/dashboard/member_role/AdminSettingsMember";
+import { getReadersService } from "../services/messages.services";
 
 const Dashboard = (props) => {
   const drawerWidth = 200;
@@ -27,12 +27,20 @@ const Dashboard = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
+  const [unReadMessages, setUnReadMessages] = useState(0);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const getNewMessages = async () => {
+    const response = await getReadersService();
+    console.log(response.data.newPub);
+    setUnReadMessages(response.data.newPub);
+  };
+
   useEffect(() => {
+    getNewMessages();
     if (!props.isLoggedIn) {
       navigate("/login");
     }
@@ -43,14 +51,26 @@ const Dashboard = (props) => {
       const { role } = props.loggedUser;
       switch (role) {
         case "admin":
-          return <AdminDrawer setCurrentTabIndex={setCurrentTabIndex} />;
-          break;
+          return (
+            <AdminDrawer
+              setCurrentTabIndex={setCurrentTabIndex}
+              unReadMessages={unReadMessages}
+            />
+          );
         case "member":
-          return <AdminDrawer setCurrentTabIndex={setCurrentTabIndex} />;
-          break;
+          return (
+            <AdminDrawer
+              setCurrentTabIndex={setCurrentTabIndex}
+              unReadMessages={unReadMessages}
+            />
+          );
         default:
-          return <AdminDrawer setCurrentTabIndex={setCurrentTabIndex} />;
-          break;
+          return (
+            <AdminDrawer
+              setCurrentTabIndex={setCurrentTabIndex}
+              unReadMessages={unReadMessages}
+            />
+          );
       }
     }
   };
@@ -139,7 +159,10 @@ const Dashboard = (props) => {
           <MembersSummaryMember loggedUser={props.loggedUser} />
         )}
         {currentTabIndex === 1 && props.loggedUser.role === "admin" && (
-          <MessagesSummaryAdmin loggedUser={props.loggedUser} />
+          <MessagesSummaryAdmin
+            loggedUser={props.loggedUser}
+            getNewMessages={getNewMessages}
+          />
         )}
         {currentTabIndex === 2 && props.loggedUser.role === "admin" && (
           <EventsSummaryAdmin loggedUser={props.loggedUser} />
@@ -152,10 +175,13 @@ const Dashboard = (props) => {
         )}
 
         {currentTabIndex === 0 && props.loggedUser.role === "member" && (
-          <MembersSummaryMember loggedUser={props.loggedUser} />
+          <MembersSummaryMember
+            loggedUser={props.loggedUser}
+            getNewMessages={getNewMessages}
+          />
         )}
         {currentTabIndex === 1 && props.loggedUser.role === "member" && (
-          <MessagesSummaryMember loggedUser={props.loggedUser} />
+          <MessagesSummaryAdmin loggedUser={props.loggedUser} />
         )}
         {currentTabIndex === 2 && props.loggedUser.role === "member" && (
           <EventsSummaryMember loggedUser={props.loggedUser} />

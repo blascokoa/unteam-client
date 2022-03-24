@@ -12,19 +12,16 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useState } from "react";
-import MembersSummaryAdmin from "./admin_role/MembersSummaryAdmin";
-import * as PropTypes from "prop-types";
 
-MailIcon.propTypes = { color: PropTypes.string };
 const AdminDrawer = (props) => {
   const [clickMembers, setClickMembers] = useState(false);
   const [clickMessages, setClickMessages] = useState(false);
   const [clickEvents, setClickEvents] = useState(false);
   const [clickFinances, setClickFinances] = useState(false);
   const [clickSettings, setClickSettings] = useState(false);
-  const [unReadMsg, setUnReadMsg] = useState(0);
 
   const tabSelector = (buttonKey) => {
+    // eslint-disable-next-line default-case
     switch (buttonKey) {
       case 0:
         setClickMembers(true);
@@ -95,7 +92,7 @@ const AdminDrawer = (props) => {
           }}
         >
           <ListItemIcon>
-            <Badge badgeContent={unReadMsg} color="primary">
+            <Badge badgeContent={props.unReadMessages} color="primary">
               <MailIcon />
             </Badge>
           </ListItemIcon>
