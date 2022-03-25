@@ -50,21 +50,6 @@ const AddMember = (props) => {
     }
   };
 
-  const addMemberButton = (
-    <Grid item xs={showForm ? 6 : 12}>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          variant={showForm ? "outlined" : "contained"}
-          onClick={handleClick}
-          sx={{ mt: 0, ml: 1, display: "flex" }}
-          fullWidth
-        >
-          {showForm ? "Cancel" : "Add a new member"}
-        </Button>
-      </Box>
-    </Grid>
-  );
-
   const noAddMemberButton = (
     <Grid item xs={showForm ? 6 : 12}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -88,8 +73,21 @@ const AddMember = (props) => {
           </Alert>
         </Collapse>
 
+        {/* TODO: this is the add member button form, need to be fixed */}
         <Grid container spacing={2}>
-          {props.role === "member" ? addMemberButton : noAddMemberButton}
+          <Grid item xs={showForm ? 6 : 12}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant={showForm ? "outlined" : "contained"}
+                onClick={handleClick}
+                sx={{ mt: 0, ml: 1, display: "flex" }}
+                fullWidth
+              >
+                {showForm ? "Cancel" : "Add a new member"}
+              </Button>
+            </Box>
+          </Grid>
+          {/* -------------------------------------------------------- */}
 
           <Grid item xs={showForm ? 6 : 12}>
             <Box
