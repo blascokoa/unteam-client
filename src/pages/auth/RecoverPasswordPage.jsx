@@ -6,7 +6,14 @@ import {
 import RecoverPasswordField from "../../components/auth/RecoverPasswordField";
 import { useNavigate } from "react-router-dom";
 import NewPasswordField from "../../components/auth/NewPasswordField";
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const RecoverPasswordPage = () => {
   const navigate = useNavigate();
@@ -14,6 +21,8 @@ const RecoverPasswordPage = () => {
   const [email, setEmail] = useState("");
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const [showCodeField, setShowCodeField] = useState(false);
   const [showNewPasswordForm, setNewPasswordForm] = useState(false);
@@ -28,6 +37,10 @@ const RecoverPasswordPage = () => {
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
+        setShowErrorMessage(true);
+        setTimeout(() => {
+          setShowErrorMessage(false);
+        }, 5000);
       } else {
         navigate("/error");
       }
@@ -45,10 +58,18 @@ const RecoverPasswordPage = () => {
     try {
       const data = { email, pwd1, pwd2 };
       const result = await newPasswordService(data);
-      result && navigate("/login");
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        result && navigate("/login");
+      }, 2000);
     } catch (error) {
       if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
+        setShowErrorMessage(true);
+        setTimeout(() => {
+          setShowErrorMessage(false);
+        }, 5000);
       } else {
         navigate("/error");
       }
@@ -77,7 +98,7 @@ const RecoverPasswordPage = () => {
             autoComplete="email"
             variant={"outlined"}
             label={"Your email address"}
-            disabled={showCodeField && showNewPasswordForm}
+            disabled={showCodeField || showNewPasswordForm}
             InputLabelProps={{
               style: { color: "#F54257" },
             }}
@@ -92,19 +113,29 @@ const RecoverPasswordPage = () => {
             </Button>
           )}
         </Box>
-        <div>
+        <Box>
           {showCodeField && (
-            <RecoverPasswordField handlePasswordForm={handlePasswordForm} />
+            <RecoverPasswordField
+              handlePasswordForm={handlePasswordForm}
+              showNewPasswordForm={showNewPasswordForm}
+            />
           )}
-        </div>
-        <div>
+        </Box>
+        <Box>
           {showNewPasswordForm && (
             <NewPasswordField changePassword={changePassword} />
           )}
-        </div>
-        <div>
-          <p>{errorMessage}</p>
-        </div>
+        </Box>
+        <Box>
+          {showErrorMessage && <Alert severity="error">{errorMessage}</Alert>}
+          {showSuccessMessage && (
+            <Alert severity="success" sx={{ textAlign: "center" }}>
+              <strong>Password changed!</strong>
+              <br />
+              You will be redirected to login page in 5 seconds
+            </Alert>
+          )}
+        </Box>
       </Box>
     </Container>
   );

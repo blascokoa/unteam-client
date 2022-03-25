@@ -175,13 +175,13 @@ const Dashboard = (props) => {
         )}
 
         {currentTabIndex === 0 && props.loggedUser.role === "member" && (
-          <MembersSummaryMember
+          <MembersSummaryMember loggedUser={props.loggedUser} />
+        )}
+        {currentTabIndex === 1 && props.loggedUser.role === "member" && (
+          <MessagesSummaryAdmin
             loggedUser={props.loggedUser}
             getNewMessages={getNewMessages}
           />
-        )}
-        {currentTabIndex === 1 && props.loggedUser.role === "member" && (
-          <MessagesSummaryAdmin loggedUser={props.loggedUser} />
         )}
         {currentTabIndex === 2 && props.loggedUser.role === "member" && (
           <EventsSummaryMember loggedUser={props.loggedUser} />

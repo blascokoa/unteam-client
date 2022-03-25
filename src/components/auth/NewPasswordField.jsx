@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
 
 const NewPasswordField = (props) => {
   const [password, setPassword] = useState("");
@@ -10,26 +11,45 @@ const NewPasswordField = (props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Password:</label>
-      <input
+    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <TextField
+        required
+        fullWidth
         type={"password"}
+        id={"password"}
+        autoComplete="password"
+        variant={"outlined"}
+        label={"Write your new Password"}
+        sx={{ mt: 2 }}
+        InputLabelProps={{
+          style: { color: "#F54257" },
+        }}
+        name="password"
+        onChange={(e) => setPassword(e.target.value)}
+        color={"secondary"}
         value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
       />
-      <label>Repeat your password:</label>
-      <input
+      <TextField
+        required
+        fullWidth
         type={"password"}
-        value={password2}
-        onChange={(e) => {
-          setPassword2(e.target.value);
+        id={"password2"}
+        autoComplete="password2"
+        variant={"outlined"}
+        label={"Repeat your password:"}
+        InputLabelProps={{
+          style: { color: "#F54257" },
         }}
+        name="password"
+        sx={{ mt: 2 }}
+        onChange={(e) => setPassword2(e.target.value)}
+        color={"secondary"}
+        value={password2}
       />
-
-      <button>Submit</button>
-    </form>
+      <Button type="submit" fullWidth variant="contained" sx={{ mb: 2 }}>
+        Submit Passwords
+      </Button>
+    </Box>
   );
 };
 
