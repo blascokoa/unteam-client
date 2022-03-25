@@ -1,12 +1,12 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
-import PreviewPublication from "./PreviewPublication";
 import { useEffect, useState } from "react";
 import {
   addPublicationService,
   editPublicationService,
 } from "../../../services/messages.services";
+import LivePreviewPublication from "./LivePreviewPublication";
 
 const NewPublication = (props) => {
   const [value, setValue] = useState("");
@@ -125,7 +125,7 @@ const NewPublication = (props) => {
           )}
         </Box>
 
-        {showFullPreview && <PreviewPublication value={value} />}
+        {showFullPreview && <LivePreviewPublication value={value} />}
       </Grid>
     </Grid>
   );
